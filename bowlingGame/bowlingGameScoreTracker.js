@@ -18,14 +18,38 @@ const getScore = (rolls) =>{
   
   let score=0;
   let frameScore=0;
+  let frameTracker=0;
   //   let frames=10;
-  let frameCount=0;
-  let currentFrame=[];
+
+  for(let i=0;i<rolls.length;i++){
+    let roll=rolls[i];
+    
+    if(frameScore!=10 && frameTracker!=2){
+      frameScore+=roll;
+      console.log(frameScore);
+    }
+    if(frameScore===10){
+      if(frameTracker!=2){
+        frameScore+=rolls[i+1]+rolls[i+2];
+        score+=frameScore;
+        frameScore=0;
+      }
+      else{
+        frameScore+=rolls[i+1];
+        score+=frameScore;
+        frameScore=0;
+      }
+    }
+    if(frameTracker===2){
+      score+=frameScore;
+      frameScore=0;
+    }
+  }
 
 
   return score;
 };
-getScore([3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6]);
+console.log(getScore([3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6]));
 const getBestScore = (gameSets) =>{
   let bestScore=getScore([0]);
   return bestScore;
