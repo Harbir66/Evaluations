@@ -26,22 +26,25 @@ const getScore = (rolls) =>{
     
     if(frameScore!=10 && frameTracker!=2){
       frameScore+=roll;
+      frameTracker+=1;
       console.log(frameScore);
     }
     if(frameScore===10){
       if(frameTracker!=2){
-        frameScore+=rolls[i+1]+rolls[i+2];
-        score+=frameScore;
+        score+=frameScore+rolls[i+1]+rolls[i+2]; 
+        // console.log(score);
+        frameTracker=0;
         frameScore=0;
       }
       else{
-        frameScore+=rolls[i+1];
-        score+=frameScore;
+        score+=frameScore+rolls[i+1];
+        frameTracker=0;
         frameScore=0;
       }
     }
     if(frameTracker===2){
       score+=frameScore;
+      frameTracker=0;
       frameScore=0;
     }
   }
