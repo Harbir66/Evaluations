@@ -1,4 +1,3 @@
-// const isNumb
 const getFrameSum = (frame) =>{
   return frame.reduce((acc,score)=>{
     acc+=score;
@@ -6,55 +5,56 @@ const getFrameSum = (frame) =>{
   });
 };
 
+const isValidRolls = (rolls) =>{
+  return rolls.every(roll => {
+    return typeof roll === 'number';
+  });
+};
 // console.log(getFrameSum([1,2,3]));
 const getScore = (rolls) =>{
   if(!Array.isArray(rolls)){
-    return new Error('Input should be an array');
+    throw new Error('Input should be an array');
   }
-  //   if(!(rolls.length === 20 || rolls.length ===21)){
-  //     return new Error('Size of input array should be 20 or 21');
-  //   }
+  if(!isValidRolls(rolls)){
+    throw new Error('Rolls must be numeric value');
+  }
+  let frames=[];
+  let index=0;
+  for(index=0;index<rolls.length;index+=2){
+    let tempArray=[];
+    tempArray.push(rolls[index]);
+    if(tempArray[0]===10){
+      index-=1;
+    }
+    tempArray.push(rolls[index+1]);
+    if(getFrameSum(tempArray)>=10){
+      tempArray.push(rolls[index+2]);
+    }
+    console.log(tempArray);
+    frames.push(tempArray);
+  }
+  frames.length=10;
 
-  
   let score=0;
-  let frameScore=0;
-  let frameTracker=0;
-  //   let frames=10;
-
-  for(let i=0;i<rolls.length;i++){
-    let roll=rolls[i];
-    
-    if(frameScore!=10 && frameTracker!=2){
-      frameScore+=roll;
-      frameTracker+=1;
-      console.log(frameScore);
-    }
-    if(frameScore===10){
-      if(frameTracker!=2){
-        score+=frameScore+rolls[i+1]+rolls[i+2]; 
-        // console.log(score);
-        frameTracker=0;
-        frameScore=0;
-      }
-      else{
-        score+=frameScore+rolls[i+1];
-        frameTracker=0;
-        frameScore=0;
-      }
-    }
-    if(frameTracker===2){
-      score+=frameScore;
-      frameTracker=0;
-      frameScore=0;
-    }
-  }
-
-
+  frames.forEach(frame =>{
+    score+=getFrameSum(frame);
+  });
   return score;
 };
-console.log(getScore([3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6]));
-const getBestScore = (gameSets) =>{
-  let bestScore=getScore([0]);
-  return bestScore;
+
+const games=[
+  [3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10],
+  [6, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [10,10,10,10,10,10,10,10,10,10,10,10]
+];
+// console.log(getScore([3,6, 3, 6, 3, 6,3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6]));
+console.log(getScore(games[0]));
+const getBestScore = (games) =>{
+  return games.reduce((maxScore,game)=>{
+    maxScore=Math.max(maxScore,getScore(game));
+    return maxScore;
+  },-1);
 };
+// console.log(getBestScore(games));
 module.exports = {getScore,getBestScore};

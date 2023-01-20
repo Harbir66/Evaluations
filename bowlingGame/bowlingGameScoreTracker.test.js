@@ -8,9 +8,9 @@ describe('Bowling Game',()=>{
     // it('should throw an error when input array size is not 20 or 21',()=>{
     //   expect(()=>getScore('abc')).toThrow('Size of input array should be 20 or 21');
     // });
-    // it('should thorw an error when input is not an array of numbers',()=>{
-    //   expect(()=>getScore([1,2,'abc',4,5,6,7,8,9,10])).toThrow('Input array should only have numbers only');
-    // });
+    it('should thorw an error when input is not an array of numbers',()=>{
+      expect(()=>getScore([1,2,'abc',4,5,6,7,8,9,10])).toThrow('Rolls must be numeric value');
+    });
     it('should do return 90 when input is [3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6]',()=>{
       const score=getScore([3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6]);
       expect(score).toBe(90);
@@ -22,6 +22,15 @@ describe('Bowling Game',()=>{
     it('should do return 16 when input is [6, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]',()=>{
       const score=getScore([6, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
       expect(score).toBe(16);
+    });
+  });
+  describe('Bowling Game Best Score Tracker',()=>{
+
+    it('should do return 16 when input is [[3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10]],',()=>{
+      const input=[[6, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [10,10,10,10,10,10,10,10,10,10,10,10]];
+      const score=getBestScore(input);
+      expect(score).toBe(300);
     });
   });
 });
